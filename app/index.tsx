@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { SafeAreaView, Button, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const [count, setCount] = useState(0);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Hello world 👋🏻</Text>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setCount((prev) => prev + 1)}
-      >
-        Click me!
-      </TouchableOpacity>
+      <View style={styles.content}>
+        <Button
+          title="Click me!"
+          color="black"
+          onPress={() => setCount((prev) => prev + 1)}
+        />
 
-      <Text style={styles.text}>Count {count}</Text>
-    </View>
+        <Text style={styles.text}>Count {count}</Text>
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -35,14 +35,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 24,
   },
-  button: {
-    flex: 1,
-    alignSelf: "flex-end",
+  content: {
     alignItems: "center",
   },
   text: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
   },
 });
