@@ -1,22 +1,21 @@
-import { useState } from "react";
-import { SafeAreaView, Button, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+
+import { useGetTodos } from "@/api/hooks/use-get-todos";
 
 export default function Index() {
-  const [count, setCount] = useState(0);
+  const { todos } = useGetTodos();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Hello world 👋🏻</Text>
+      <Text style={styles.heading}>Todo List</Text>
 
-      <View style={styles.content}>
-        <Button
-          title="Click me!"
-          color="black"
-          onPress={() => setCount((prev) => prev + 1)}
-        />
-
-        <Text style={styles.text}>Count {count}</Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {todos?.map((todo) => (
+          <View key={todo.id} style={styles.todoContainer}>
+            <Text style={styles.todoText}>{todo.title}</Text>
+          </View>
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -35,12 +34,25 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 24,
   },
-  content: {
-    alignItems: "center",
+  scrollContainer: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+
+    maxHeight: 400,
   },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "black",
+  todoContainer: {
+    backgroundColor: "white",
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  todoText: {
+    fontSize: 18,
+    color: "#333",
   },
 });
