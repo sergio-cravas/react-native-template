@@ -14,8 +14,6 @@ export const usePutTodo = () => {
         const next = [...prev];
         const newTodoIndex = next.findIndex((todo) => todo.id === newTodo.id);
 
-        console.log("newTodoIndex", newTodoIndex, next);
-
         next[newTodoIndex] = newTodo;
 
         return [...next];

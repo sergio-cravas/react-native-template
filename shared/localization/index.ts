@@ -10,5 +10,3 @@ i18n.locale = getLocales()[0].languageCode ?? "en";
 i18n.enableFallback = true;
 
 export default i18n;
-/** Use Example */
-// console.log(i18n.t("welcome"));
