@@ -1,10 +1,20 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 
 import i18n from "@/shared/localization";
-import { useGetTodos } from "@/api/hooks/use-get-todos";
+import { Todo } from "@/rest-clients/models/todo";
+import { TodoItem } from "@/components/todo-item/todo-item";
+import { useGetTodos } from "@/rest-clients/hooks/use-get-todos";
+import { usePutTodo } from "@/rest-clients/hooks/use-put-todo";
 
 export default function Index() {
   const { todos } = useGetTodos();
+  const { editTodo } = usePutTodo();
+
+  const handleOnCompleteTodo = (todo: Todo) => {
+    const newTodo = { ...todo, completed: !todo.completed };
+
+    editTodo({ todoId: todo.id, todo: newTodo });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,9 +24,11 @@ export default function Index() {
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {todos?.map((todo) => (
-          <View key={todo.id} style={styles.todoContainer}>
-            <Text style={styles.todoText}>{todo.title}</Text>
-          </View>
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onComplete={() => handleOnCompleteTodo(todo)}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>
