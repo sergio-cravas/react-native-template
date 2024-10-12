@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
+import { SafeAreaView, VirtualizedList, StyleSheet, Text } from "react-native";
 
 import i18n from "@/shared/localization";
 import { Todo } from "@/rest-clients/models/todo";
@@ -22,15 +22,16 @@ export default function Index() {
 
       <Text style={styles.message}>{i18n.t("home.message")}</Text>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {todos?.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onComplete={() => handleOnCompleteTodo(todo)}
-          />
-        ))}
-      </ScrollView>
+      <VirtualizedList
+        data={todos || []}
+        style={styles.list}
+        getItem={(data, index) => data[index]}
+        getItemCount={(data) => data?.length}
+        keyExtractor={(item: Todo) => item.id.toString()}
+        renderItem={({ item }) => (
+          <TodoItem todo={item} onComplete={() => handleOnCompleteTodo(item)} />
+        )}
+      />
     </SafeAreaView>
   );
 }
@@ -53,27 +54,12 @@ const styles = StyleSheet.create({
   message: {
     textAlign: "center",
     fontSize: 18,
-    marginBottom: 24,
+    marginBottom: 32,
   },
-  scrollContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+  list: {
+    flex: 1,
 
-    maxHeight: 400,
-  },
-  todoContainer: {
-    backgroundColor: "white",
-    padding: 15,
-    marginVertical: 10,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 0.5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  todoText: {
-    fontSize: 18,
-    color: "#333",
+    marginBottom: 40,
+    paddingHorizontal: 16,
   },
 });
