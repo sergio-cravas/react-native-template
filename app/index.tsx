@@ -1,5 +1,6 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 
+import i18n from "@/shared/localization";
 import { useGetTodos } from "@/api/hooks/use-get-todos";
 
 export default function Index() {
@@ -8,6 +9,8 @@ export default function Index() {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Todo List</Text>
+
+      <Text style={styles.message}>{i18n.t("home.message")}</Text>
 
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {todos?.map((todo) => (
@@ -32,6 +35,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 24,
+    marginBottom: 12,
+    marginTop: 24,
+  },
+  message: {
+    textAlign: "center",
+    fontSize: 18,
     marginBottom: 24,
   },
   scrollContainer: {
